@@ -1,0 +1,34 @@
+{
+  "manifestVersion": 1,
+  "id": "dev.vibeone.files",
+  "name": "文件浏览",
+  "description": "文件浏览工作区插件",
+  "version": "0.1.0",
+  "engines": {
+    "pluginApi": ">=0.1 <0.2"
+  },
+  "entrypoints": {
+    "app": {
+      "path": "dist/app.mjs"
+    }
+  },
+  "hostRequirements": [
+    "workspace.read",
+    "artifact.write"
+  ],
+  "contributions": [
+    {
+      "id": "files",
+      "kind": "app.panel",
+      "kindVersion": 1,
+      "binding": {
+        "type": "app"
+      },
+      "surface": "workspace.tool",
+      "toolId": "files",
+      "title": "文件",
+      "description": "文件浏览 · 可独立更新和停用",
+      "icon": "folder"
+    }
+  ]
+}

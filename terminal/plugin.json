@@ -1,0 +1,34 @@
+{
+  "manifestVersion": 1,
+  "id": "dev.vibeone.terminal",
+  "name": "交互终端",
+  "description": "交互终端工作区插件",
+  "version": "0.1.0",
+  "engines": {
+    "pluginApi": ">=0.1 <0.2"
+  },
+  "entrypoints": {
+    "app": {
+      "path": "dist/app.mjs"
+    }
+  },
+  "hostRequirements": [
+    "workspace.read",
+    "desktop.terminal"
+  ],
+  "contributions": [
+    {
+      "id": "terminal",
+      "kind": "app.panel",
+      "kindVersion": 1,
+      "binding": {
+        "type": "app"
+      },
+      "surface": "workspace.tool",
+      "toolId": "terminal",
+      "title": "终端",
+      "description": "交互终端 · 可独立更新和停用",
+      "icon": "terminal"
+    }
+  ]
+}

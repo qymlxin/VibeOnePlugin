@@ -1,0 +1,33 @@
+{
+  "manifestVersion": 1,
+  "id": "dev.vibeone.changes",
+  "name": "变更审阅",
+  "description": "变更审阅工作区插件",
+  "version": "0.1.0",
+  "engines": {
+    "pluginApi": ">=0.1 <0.2"
+  },
+  "entrypoints": {
+    "app": {
+      "path": "dist/app.mjs"
+    }
+  },
+  "hostRequirements": [
+    "workspace.read"
+  ],
+  "contributions": [
+    {
+      "id": "changes",
+      "kind": "app.panel",
+      "kindVersion": 1,
+      "binding": {
+        "type": "app"
+      },
+      "surface": "workspace.tool",
+      "toolId": "changes",
+      "title": "变更",
+      "description": "变更审阅 · 可独立更新和停用",
+      "icon": "changes"
+    }
+  ]
+}

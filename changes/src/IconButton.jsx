@@ -1,0 +1,1 @@
+import React from 'react';export function IconButton({label,active,onClick,children}){return <button className={'icon-button'+(active?' active':'')} aria-label={label} title={label} onClick={onClick}>{children}</button>;}

@@ -1,0 +1,15 @@
+{
+  "name": "@vibeone/plugin-changes",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node ../scripts/build.mjs changes"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "lucide-react": "^0.468.0",
+    "@pierre/diffs": "1.6.4",
+    "@pierre/trees": "1.0.0-beta.6"
+  }
+}

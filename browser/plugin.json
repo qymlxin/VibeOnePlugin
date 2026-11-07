@@ -1,0 +1,33 @@
+{
+  "manifestVersion": 1,
+  "id": "dev.vibeone.browser",
+  "name": "网页预览",
+  "description": "网页预览工作区插件",
+  "version": "0.1.0",
+  "engines": {
+    "pluginApi": ">=0.1 <0.2"
+  },
+  "entrypoints": {
+    "app": {
+      "path": "dist/app.mjs"
+    }
+  },
+  "hostRequirements": [
+    "desktop.browser"
+  ],
+  "contributions": [
+    {
+      "id": "browser",
+      "kind": "app.panel",
+      "kindVersion": 1,
+      "binding": {
+        "type": "app"
+      },
+      "surface": "workspace.tool",
+      "toolId": "browser",
+      "title": "网页",
+      "description": "网页预览 · 可独立更新和停用",
+      "icon": "browser"
+    }
+  ]
+}

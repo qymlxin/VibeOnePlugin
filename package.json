@@ -1,0 +1,17 @@
+{
+  "name": "vibeone-plugins",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "files",
+    "changes",
+    "terminal",
+    "browser"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.12"
+  }
+}
