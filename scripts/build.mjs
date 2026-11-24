@@ -7,7 +7,7 @@ for(const name of process.argv.slice(2).length?process.argv.slice(2):['files','c
  if(!['files','changes','terminal','browser'].includes(name))throw Error('Unknown package');
  const directory=path.join(root,name),outfile=path.join(directory,'dist/app.mjs');
  await mkdir(path.dirname(outfile),{recursive:true});
- const result=await build({entryPoints:[path.join(directory,'src/app.jsx')],bundle:true,format:'esm',platform:'browser',target:'chrome120',outfile,write:false,minify:true,legalComments:'inline',external:['react','react-dom','react-dom/client','react/jsx-runtime'],define:{'process.env.NODE_ENV':'"production"'}});
+ const result=await build({entryPoints:[path.join(directory,'src/app.jsx')],bundle:true,format:'esm',platform:'browser',target:'chrome120',outfile,write:false,minify:true,legalComments:'inline',external:['react','react-dom','react-dom/client','react/jsx-runtime','@vibeone/plugin-sdk','@vibeone/plugin-sdk/app'],define:{'process.env.NODE_ENV':'"production"'}});
  const js=result.outputFiles.find(file=>file.path.endsWith('.mjs')).text;
  const css=result.outputFiles.find(file=>file.path.endsWith('.css'))?.text??'';
  const styles=await readFile(path.join(directory,'src/styles.css'),'utf8');
