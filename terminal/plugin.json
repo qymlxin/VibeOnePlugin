@@ -2,7 +2,8 @@
   "manifestVersion": 1,
   "id": "dev.vibeone.terminal",
   "name": "交互终端",
-  "description": "交互终端工作区插件",
+  "description": "集成 PTY 会话管理的交互式桌面终端插件",
+  "author": "VibeOne",
   "version": "0.1.0",
   "engines": {
     "pluginApi": ">=0.1 <0.2"
@@ -16,6 +17,31 @@
     "workspace.read",
     "desktop.terminal"
   ],
+  "configSchema": {
+    "type": "object",
+    "title": "终端显示设置",
+    "properties": {
+      "fontSize": {
+        "type": "integer",
+        "title": "终端字号（px）",
+        "default": 12,
+        "minimum": 10,
+        "maximum": 24
+      },
+      "scrollback": {
+        "type": "integer",
+        "title": "历史回滚行数",
+        "default": 5000,
+        "minimum": 500,
+        "maximum": 50000
+      },
+      "cursorBlink": {
+        "type": "boolean",
+        "title": "启用光标闪烁",
+        "default": true
+      }
+    }
+  },
   "contributions": [
     {
       "id": "terminal",
