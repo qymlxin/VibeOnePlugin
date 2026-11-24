@@ -2,7 +2,8 @@
   "manifestVersion": 1,
   "id": "dev.vibeone.files",
   "name": "文件浏览",
-  "description": "文件浏览工作区插件",
+  "description": "工作区目录树、代码只读预览与文本产物保存插件",
+  "author": "VibeOne",
   "version": "0.1.0",
   "engines": {
     "pluginApi": ">=0.1 <0.2"
@@ -16,6 +17,24 @@
     "workspace.read",
     "artifact.write"
   ],
+  "configSchema": {
+    "type": "object",
+    "title": "文件浏览首选项",
+    "description": "配置文件浏览器在打开工作区标签页时的初始表现。",
+    "properties": {
+      "defaultPath": {
+        "type": "string",
+        "title": "默认展开路径",
+        "default": ".",
+        "placeholder": "."
+      },
+      "showTreeByDefault": {
+        "type": "boolean",
+        "title": "默认显示文件目录树",
+        "default": true
+      }
+    }
+  },
   "contributions": [
     {
       "id": "files",

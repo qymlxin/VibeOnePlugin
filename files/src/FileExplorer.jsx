@@ -14,11 +14,13 @@ function changeTree(files){
  return [...root.children.values()];
 }
 
-export function FileExplorer({session,workbench,tab,fileTarget,artifactCapture:capture,onTitle}){
+export function FileExplorer({session,workbench,tab,fileTarget,artifactCapture:capture,onTitle,config,theme}){
+ const initialRoot=tab==='files'&&typeof config?.defaultPath==='string'&&config.defaultPath.trim()?clean(config.defaultPath.trim()).replace(/\/$/,'')||'.':'.';
+ const initialShowTree=typeof config?.showTreeByDefault==='boolean'?config.showTreeByDefault:true;
  const [treeWidth,setTreeWidth]=useState(()=>{try{const width=Number(localStorage.getItem('vibeone-file-tree-width'));return width>=160&&width<=1200?width:240;}catch{return 240;}});
  useEffect(()=>{try{localStorage.setItem('vibeone-file-tree-width',String(treeWidth));}catch{}},[treeWidth]);
  const online=workbench.phase==='online';
- const [directories,setDirectories]=useState(()=>Object.create(null)),[expanded,setExpanded]=useState(new Set(['.'])),[result,setResult]=useState(null),[preview,setPreview]=useState(null),[selected,setSelected]=useState(null),[filter,setFilter]=useState(''),[showTree,setShowTree]=useState(true),[path,setPath]=useState('.'),[pathDraft,setPathDraft]=useState('.'),[navigating,setNavigating]=useState(false),[directoryErrors,setDirectoryErrors]=useState(()=>Object.create(null)),[error,setError]=useState(''),[busy,setBusy]=useState(false);
+ const [directories,setDirectories]=useState(()=>Object.create(null)),[expanded,setExpanded]=useState(()=>new Set([initialRoot])),[result,setResult]=useState(null),[preview,setPreview]=useState(null),[selected,setSelected]=useState(null),[filter,setFilter]=useState(''),[showTree,setShowTree]=useState(initialShowTree),[path,setPath]=useState(initialRoot),[pathDraft,setPathDraft]=useState(initialRoot),[navigating,setNavigating]=useState(false),[directoryErrors,setDirectoryErrors]=useState(()=>Object.create(null)),[error,setError]=useState(''),[busy,setBusy]=useState(false);
  const generation=useRef(0),selectionId=useRef(0),pending=useRef(new Map()),navigationId=useRef(0);
  const root=useRef(null);
  async function directory(path='.',epoch=generation.current){
@@ -52,7 +54,7 @@ export function FileExplorer({session,workbench,tab,fileTarget,artifactCapture:c
    catch(reason){if(epoch===generation.current)setError(reason.message??String(reason));}
    finally{if(epoch===generation.current)setBusy(false);}
  }
- useEffect(()=>{const epoch=++generation.current;selectionId.current++;pending.current=new Map();navigationId.current++;setNavigating(false);setDirectoryErrors(Object.create(null));setDirectories(Object.create(null));setExpanded(new Set(['.']));setResult(null);setPreview(null);setSelected(null);setPath('.');setPathDraft('.');setFilter('');void load(epoch,'.');return()=>{generation.current++;selectionId.current++;};},[session.id,tab]);
+ useEffect(()=>{const epoch=++generation.current;selectionId.current++;pending.current=new Map();navigationId.current++;setNavigating(false);setDirectoryErrors(Object.create(null));setDirectories(Object.create(null));setExpanded(new Set([initialRoot]));setResult(null);setPreview(null);setSelected(null);setPath(initialRoot);setPathDraft(initialRoot);setFilter('');void load(epoch,initialRoot);return()=>{generation.current++;selectionId.current++;};},[session.id,tab,initialRoot]);
  async function inspect(file,staged=false){
    if(tab==='changes'){setSelected(file);return;}
    const id=++selectionId.current,epoch=generation.current;
@@ -69,7 +71,7 @@ export function FileExplorer({session,workbench,tab,fileTarget,artifactCapture:c
  const finishedRun=session.runs?.at(-1)?.finishedAt;const previousFinish=useRef(finishedRun);
  useEffect(()=>{if(previousFinish.current===finishedRun)return;previousFinish.current=finishedRun;void load();if(selected)void inspect(selected,selected.stagedView);},[finishedRun]);
  useEffect(()=>{if(tab==='files'&&selected?.path)onTitle?.(selected.path.split(/[\\/]/).at(-1));},[selected?.path,onTitle]);
- return <section ref={root} className="desktop-inspector explorer" aria-label={tab==='changes'?'变更浏览器':'文件浏览器'}>
+ return <section ref={root} data-theme={theme} className="desktop-inspector explorer" aria-label={tab==='changes'?'变更浏览器':'文件浏览器'}>
   <FilePanelHeader file={selected?.path??(tab==='changes'?'工作区变更':path==='.'?'工作区文件':path)} changes={tab==='changes'} status={selected?.status?.trim()==='??'?'U':selected?.status?.trim()} tree={showTree} onToggle={()=>setShowTree(!showTree)} onMenu={()=>setPanelMenu(!panelMenu)}/>
   {panelMenu&&<div className="file-panel-menu"><button onClick={()=>{void load();if(selected)void inspect(selected,selected.stagedView);for(const path of expanded)if(path!=='.')void directory(path);setPanelMenu(false);}} disabled={busy||navigating}>刷新</button>{selected&&<button onClick={()=>{selectionId.current++;setSelected(null);setPreview(null);setPanelMenu(false);}}>关闭预览</button>}{tab==='files'&&<form onSubmit={event=>{event.preventDefault();void navigate(pathDraft);setPanelMenu(false);}}><input aria-label="浏览目录" value={pathDraft} disabled={navigating} onChange={event=>setPathDraft(event.target.value)}/><button disabled={busy||navigating}>打开目录</button></form>}{tab==='files'&&preview&&!preview.binary&&(!workbench.device||workbench.device.role==='operator')&&<button disabled={!online||capture.busy||!!capture.failure} onClick={()=>void capture.save(preview.path)}>保存为文本产物</button>}</div>}
   {error&&<p role="alert">{error}</p>}{(busy||navigating)&&<p role="status">正在读取…</p>}

@@ -2,7 +2,8 @@
   "manifestVersion": 1,
   "id": "dev.vibeone.changes",
   "name": "变更审阅",
-  "description": "变更审阅工作区插件",
+  "description": "基于真实 Git 状态的变更树与统一差异审阅插件",
+  "author": "VibeOne",
   "version": "0.1.0",
   "engines": {
     "pluginApi": ">=0.1 <0.2"
@@ -15,6 +16,17 @@
   "hostRequirements": [
     "workspace.read"
   ],
+  "configSchema": {
+    "type": "object",
+    "title": "变更审阅首选项",
+    "properties": {
+      "showTreeByDefault": {
+        "type": "boolean",
+        "title": "默认显示变更文件列表",
+        "default": true
+      }
+    }
+  },
   "contributions": [
     {
       "id": "changes",
