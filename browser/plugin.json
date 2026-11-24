@@ -2,7 +2,8 @@
   "manifestVersion": 1,
   "id": "dev.vibeone.browser",
   "name": "网页预览",
-  "description": "网页预览工作区插件",
+  "description": "工作区内置 Chromium 独立网页预览与调试插件",
+  "author": "VibeOne",
   "version": "0.1.0",
   "engines": {
     "pluginApi": ">=0.1 <0.2"
@@ -15,6 +16,19 @@
   "hostRequirements": [
     "desktop.browser"
   ],
+  "configSchema": {
+    "type": "object",
+    "title": "浏览器预览设置",
+    "properties": {
+      "homeUrl": {
+        "type": "string",
+        "title": "默认预览地址",
+        "description": "打开空白网页标签且未指定目标链接时自动加载的地址",
+        "default": "",
+        "placeholder": "https://example.com"
+      }
+    }
+  },
   "contributions": [
     {
       "id": "browser",
